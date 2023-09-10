@@ -1,2 +1,2 @@
 # CSFML-Falling-Sand
-CSFML falling sand simulation
+A very simple falling sand simulation made with CSFML and C programming language.
