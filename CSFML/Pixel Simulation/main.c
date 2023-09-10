@@ -330,7 +330,7 @@ int main() {
 		//Logic
 		if (tickSpeed <= 0.f) {
 			update();
-			tickSpeed = 0.01f;
+			tickSpeed = 0.001f;
 		}
 
 
