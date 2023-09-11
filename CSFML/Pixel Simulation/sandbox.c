@@ -18,11 +18,13 @@ sfVertex* getQuad(int x, int y) {
 	return sfVertexArray_getVertex(m_vertices, (x + y * W_WIDTH) * 4);
 }
 
+//Fill the screen with selected pixel type
 void fillScreenSelected() {
 	for (int y = 0; y < W_HEIGHT; y++) {
 		for (int x = 0; x < W_WIDTH; x++) {
 			p_Grid[x][y].type = pixel_type;
-			//p_Grid[x][y].type = pixel_type;
+			p_Grid[x][y].col = pixel_current(pixel_type).col;
+			setPixelColor(x, y, p_Grid[x][y].col);
 		}
 	}
 }
@@ -31,6 +33,7 @@ void updateDT(float dt) {
 	delta_time = dt;
 }
 
+//Randomize color for color layering
 sfColor randomColor(sfColor color) {
 
 	//Randomize color

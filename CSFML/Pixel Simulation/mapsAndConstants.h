@@ -1,11 +1,11 @@
 #pragma once
 #include "SFML/Graphics.h"
 
-#define RAND_MAX 0x7fff
+#define RAND_MAX 0x7fff //Define rand max for random floats
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
-#define PIXEL_SIZE 2
+#define PIXEL_SIZE 2 //2 is max if you want performance
 
 #define W_WIDTH  WINDOW_WIDTH / PIXEL_SIZE
 #define W_HEIGHT  WINDOW_HEIGHT / PIXEL_SIZE

@@ -14,7 +14,7 @@ int WinMain() {
 	sfVideoMode mode = { WINDOW_WIDTH, WINDOW_HEIGHT, 32 };
 	sfRenderWindow* window;
 
-	window = sfRenderWindow_create(mode, "Window", sfDefaultStyle, sfContextDefault);
+	window = sfRenderWindow_create(mode, "Window", sfClose | sfTitlebar, sfContextDefault);
 
 	sfRenderWindow_setFramerateLimit(window, 100);
 

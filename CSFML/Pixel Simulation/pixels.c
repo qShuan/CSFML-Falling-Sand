@@ -8,8 +8,8 @@ sfColor randomizeColor(sfColor color) { //Change it to hsl
 	HSL hsl = rgb2hsl(color.r, color.g, color.b);
 
 	//Randomize luminance and saturation
-	hsl.l *= randomBetween(0.85f, 1.15f);
-	hsl.s *= randomBetween(0.85f, 1.15f);
+	hsl.l *= randomBetween(0.9f, 1.10f);
+	hsl.s *= randomBetween(0.9f, 1.10f);
 
 	//Convert back to rgb
 	RGB rgb = hsl2rgb(hsl.h, hsl.s, hsl.l);
