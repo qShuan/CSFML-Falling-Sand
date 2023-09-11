@@ -9,12 +9,21 @@ bool isEmpty(int x, int y) {
 
 //Is it
 bool inBounds(int x, int y) {
-	if (x >= 0 && x < W_WIDTH && y > 0 && y < W_HEIGHT) return true;
+	if (x >= 0 && x < W_WIDTH && y >= 0 && y < W_HEIGHT) return true;
 	return false;
 }
 
 sfVertex* getQuad(int x, int y) {
 	return sfVertexArray_getVertex(m_vertices, (x + y * W_WIDTH) * 4);
+}
+
+void fillScreenSelected() {
+	for (int y = 0; y < W_HEIGHT; y++) {
+		for (int x = 0; x < W_WIDTH; x++) {
+			p_Grid[x][y].type = pixel_type;
+			prev_Grid[x][y].type = pixel_type;
+		}
+	}
 }
 
 void updateDT(float dt) {

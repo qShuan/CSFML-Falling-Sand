@@ -13,6 +13,7 @@ int main() {
 	//Init window
 	sfVideoMode mode = { WINDOW_WIDTH, WINDOW_HEIGHT, 32 };
 	sfRenderWindow* window;
+
 	window = sfRenderWindow_create(mode, "Window", sfDefaultStyle, sfContextDefault);
 
 	sfRenderWindow_setFramerateLimit(window, 100);
@@ -26,7 +27,7 @@ int main() {
 	pixel_type = SAND;
 
 	//Radius
-	int radius = 5;
+	int radius = 25;
 
 	float tickSpeed = 0.f;
 
@@ -60,12 +61,23 @@ int main() {
 		else if (sfKeyboard_isKeyPressed(sfKeyR)) {
 			reset();
 		}
+		else if (sfKeyboard_isKeyPressed(sfKeyF)) {
+			fillScreenSelected();
+		}
 
 		if (sfMouse_isButtonPressed(0)) {
 			sfVector2i mousePos = sfMouse_getPosition(window);
 			int x = mousePos.x / PIXEL_SIZE;
 			int y = mousePos.y / PIXEL_SIZE;
 			drawCircle(x, y, radius);
+		}
+
+		if (sfMouse_isButtonPressed(1)) {
+			sfVector2i mousePos = sfMouse_getPosition(window);
+			int x = mousePos.x / PIXEL_SIZE;
+			int y = mousePos.y / PIXEL_SIZE;
+			
+			printf("R: %d  G: %d  B: %d\n", p_Grid[x][y].col.r, p_Grid[x][y].col.g, p_Grid[x][y].col.b);
 		}
 
 		//Timer

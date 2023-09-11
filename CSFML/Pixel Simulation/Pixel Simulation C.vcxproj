@@ -19,14 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hsl.c" />
+    <ClCompile Include="hslConverter.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="pixels.c" />
     <ClCompile Include="sandbox.c" />
     <ClCompile Include="vertices.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hsl.h" />
     <ClInclude Include="mapsAndConstants.h" />
     <ClInclude Include="pixels.h" />
     <ClInclude Include="sandbox.h" />
