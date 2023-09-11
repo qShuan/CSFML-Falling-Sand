@@ -15,15 +15,8 @@ typedef struct pixel_t {
 	bool moved_last;
 }pixel_t;
 
+
 //Individual pixels
-static pixel_t pixel_current(Pixel p_type) { //Make it possible to fill the screen with selected pixel
-	pixel_t p = { 0 };
-	p.type = p_type;
-	p.col = randomizeColor(COLOR_MAP[p_type]);
-
-	return p;
-};
-
 static pixel_t pixel_empty() {
 	pixel_t p = { 0 };
 	p.type = AIR;
@@ -56,5 +49,23 @@ static pixel_t pixel_wood() {
 	return p;
 }
 
+static pixel_t pixel_current(Pixel p_type) { //Make it possible to fill the screen with selected pixel - works for some reason?
+
+	switch (p_type) {
+	case AIR:
+		return pixel_empty();
+		break;
+	case SAND:
+		return pixel_sand();
+		break;
+	case WATER:
+		return pixel_water();
+		break;
+	case WOOD:
+		return pixel_wood();
+		break;
+	}
+};
+
 pixel_t p_Grid[W_WIDTH][W_HEIGHT];
-//pixel_t prev_Grid[W_WIDTH][W_HEIGHT]; not using atm
+//pixel_t prev_Grid[W_WIDTH][W_HEIGHT]; why does not using this in here works and in the cpp version doesn't?
