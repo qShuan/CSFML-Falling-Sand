@@ -33,7 +33,8 @@ void update_sand(int x, int y);
 void update_water(int x, int y);
 
 //Drawing
-void addPixel(int x, int y);
+void addPixel(int x, int y, sfColor color);
 void drawCircle(int x, int y, int radius);
 void draw(sfRenderWindow* window);
 void fillScreenSelected();
+sfColor randomColor(sfColor color);

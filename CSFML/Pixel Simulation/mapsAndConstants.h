@@ -10,9 +10,23 @@
 #define W_WIDTH  WINDOW_WIDTH / PIXEL_SIZE
 #define W_HEIGHT  WINDOW_HEIGHT / PIXEL_SIZE
 
+#define AIR_COLOR sfColor_fromRGB(72,72,72)
+#define SAND_COLOR sfColor_fromRGB(227, 197, 107)
+#define WATER_COLOR sfColor_fromRGB(96, 168, 219)
+#define WOOD_COLOR sfColor_fromRGB(97, 50, 8);
+
 //Pixel types
 typedef enum Pixel { AIR, SAND, WATER, WOOD,NR_ELEMENTS } Pixel;
 Pixel pixel_type;
+
+sfColor COLOR_MAP[NR_ELEMENTS];
+
+static void initColors() {
+	COLOR_MAP[AIR] = AIR_COLOR;
+	COLOR_MAP[SAND] = SAND_COLOR;
+	COLOR_MAP[WATER] = WATER_COLOR;
+	COLOR_MAP[WOOD] = WOOD_COLOR;
+}
 
 static const float gravity = 10.f;
 

@@ -1,9 +1,10 @@
 #include "sandbox.h"
+#include "hslConverter.c"
 
 
 //Is it
 bool isEmpty(int x, int y) {
-	if (prev_Grid[x][y].type == AIR) return true;
+	if (p_Grid[x][y].type == AIR) return true;
 	return false;
 }
 
@@ -21,13 +22,30 @@ void fillScreenSelected() {
 	for (int y = 0; y < W_HEIGHT; y++) {
 		for (int x = 0; x < W_WIDTH; x++) {
 			p_Grid[x][y].type = pixel_type;
-			prev_Grid[x][y].type = pixel_type;
+			//p_Grid[x][y].type = pixel_type;
 		}
 	}
 }
 
 void updateDT(float dt) {
 	delta_time = dt;
+}
+
+sfColor randomColor(sfColor color) {
+
+	//Randomize color
+	HSL hsl = rgb2hsl(color.r, color.g, color.b);
+
+	//Randomize luminance and saturation
+	hsl.l *= randomBetween(0.85f, 1.15f);
+	hsl.s *= randomBetween(0.85f, 1.15f);
+
+	//Convert back to rgb
+	RGB rgb = hsl2rgb(hsl.h, hsl.s, hsl.l);
+
+	color = sfColor_fromRGB(rgb.r, rgb.g, rgb.b);
+
+	return color;
 }
 
 void setPixelColor(int x, int y, sfColor col) {
@@ -39,12 +57,16 @@ void setPixelColor(int x, int y, sfColor col) {
 	quad[2].color = col;
 	quad[3].color = col;
 
+	p_Grid[x][y].col = col;
 }
 
 void swap(int x1, int y1, int x2, int y2) {
 	pixel_t temp = p_Grid[x1][y1];
 	p_Grid[x1][y1] = p_Grid[x2][y2];
 	p_Grid[x2][y2] = temp;
+
+	p_Grid[x1][y1].moved_last = true;
+	p_Grid[x2][y2].moved_last = true;
 
 	setPixelColor(x1, y1, p_Grid[x1][y1].col);
 	setPixelColor(x2, y2, p_Grid[x2][y2].col);
@@ -78,7 +100,7 @@ void init() {
 	for (int y = 0; y < W_HEIGHT; y++) {
 		for (int x = 0; x < W_WIDTH; x++) {
 			p_Grid[x][y] = pixel_empty();
-			prev_Grid[x][y] = pixel_empty();
+			//p_Grid[x][y] = pixel_empty();
 		}
 	}
 
@@ -89,7 +111,7 @@ void reset() {
 	for (int y = 0; y < W_HEIGHT; y++) {
 		for (int x = 0; x < W_WIDTH; x++) {
 			p_Grid[x][y] = pixel_empty();
-			prev_Grid[x][y] = pixel_empty();
+			//p_Grid[x][y] = pixel_empty();
 
 			setPixelColor(x, y, p_Grid[x][y].col);
 		}
@@ -117,7 +139,7 @@ void update_sand(int x, int y) {
 	else if(inBounds(x, y + 1) && isEmpty(x, y + 1)) {
 		swap(x, y, x, y + 1);
 	}
-	else if (inBounds(x, y + 1) && prev_Grid[x][y + 1].type == WATER) {
+	else if (inBounds(x, y + 1) && p_Grid[x][y + 1].type == WATER) {
 		if (rand() % 30 < 5) {
 			swap(x, y, x, y + 1);
 		}
@@ -166,7 +188,9 @@ void update() {
 		if (leftToRight) {
 			for (int x = 0; x < W_WIDTH; x++) {
 
-				switch (prev_Grid[x][y].type) {
+				if (p_Grid[x][y].moved_last) continue;
+
+				switch (p_Grid[x][y].type) {
 				case AIR:
 					continue;
 					break;
@@ -189,7 +213,9 @@ void update() {
 		else {
 			for (int x = W_WIDTH - 1; x >= 0; x--) {
 
-				switch (prev_Grid[x][y].type) {
+				if (p_Grid[x][y].moved_last) continue;
+
+				switch (p_Grid[x][y].type) {
 				case AIR:
 					continue;
 					break;
@@ -213,12 +239,15 @@ void update() {
 }
 
 //Ye just spawn square on pos
-void addPixel(int x, int y) {
-	if (inBounds(x, y)) {
+void addPixel(int x, int y, sfColor color) {
+	if (inBounds(x, y) && isEmpty(x, y)) {
 		switch (pixel_type) {
 		case SAND:
 			p_Grid[x][y] = pixel_sand();
-			setPixelColor(x, y, p_Grid[x][y].col);
+
+			color = randomColor(color);
+
+			setPixelColor(x, y, color);
 			break;
 
 		case WATER:
@@ -235,12 +264,16 @@ void addPixel(int x, int y) {
 }
 
 void drawCircle(int x, int y, int radius) {
+
+	//Random color each time a whole circle is drawn
+	sfColor color = pixel_current(pixel_type).col;
+
 	float rSquared = radius * radius;
 
 	for (int u = x - radius; u < x + radius + 1; u++)
 		for (int v = y - radius; v < y + radius + 1; v++)
 			if ((x - u) * (x - u) + (y - v) * (y - v) < rSquared)
-				addPixel(u, v);
+				addPixel(u, v, color);
 
 }
 
@@ -251,7 +284,8 @@ void draw(sfRenderWindow* window) {
 
 	for (int y = 0; y < W_HEIGHT; y++) {
 		for (int x = 0; x < W_WIDTH; x++) {
-			prev_Grid[x][y] = p_Grid[x][y];
+			p_Grid[x][y] = p_Grid[x][y];
+			p_Grid[x][y].moved_last = false;
 		}
 	}
 }

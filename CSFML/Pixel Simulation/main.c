@@ -8,7 +8,7 @@
 
 
 
-int main() {
+int WinMain() {
 
 	//Init window
 	sfVideoMode mode = { WINDOW_WIDTH, WINDOW_HEIGHT, 32 };
@@ -22,12 +22,13 @@ int main() {
 	srand(time(NULL));
 
 	//Init
+	initColors();
 	initVertexArray();
 	init();
 	pixel_type = SAND;
 
 	//Radius
-	int radius = 25;
+	int radius = 5;
 
 	float tickSpeed = 0.f;
 
@@ -42,7 +43,6 @@ int main() {
 			if (e.type == sfEvtClosed) {
 				sfRenderWindow_close(window);
 			}
-
 		}
 
 		//Clear
@@ -64,6 +64,15 @@ int main() {
 		else if (sfKeyboard_isKeyPressed(sfKeyF)) {
 			fillScreenSelected();
 		}
+		else if (sfKeyboard_isKeyPressed(sfKeyQ)) {
+			radius--;
+		}
+		else if (sfKeyboard_isKeyPressed(sfKeyE)) {
+			radius++;
+		}
+
+		if (radius <= 0)
+			radius = 1;
 
 		if (sfMouse_isButtonPressed(0)) {
 			sfVector2i mousePos = sfMouse_getPosition(window);
@@ -79,6 +88,7 @@ int main() {
 			
 			printf("R: %d  G: %d  B: %d\n", p_Grid[x][y].col.r, p_Grid[x][y].col.g, p_Grid[x][y].col.b);
 		}
+
 
 		//Timer
 		float dt = sfTime_asSeconds(sfClock_restart(clock));

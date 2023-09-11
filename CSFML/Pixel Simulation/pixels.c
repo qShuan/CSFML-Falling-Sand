@@ -2,10 +2,10 @@
 #include "hslConverter.c"
 
 
-sfColor randomizeColor(int r, int g, int b) { //Change it to hsl
+sfColor randomizeColor(sfColor color) { //Change it to hsl
 
 	//Init hsl and convert values
-	HSL hsl = rgb2hsl(r, g, b);
+	HSL hsl = rgb2hsl(color.r, color.g, color.b);
 
 	//Randomize luminance and saturation
 	hsl.l *= randomBetween(0.85f, 1.15f);
